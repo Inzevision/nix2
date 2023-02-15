@@ -1,0 +1,13 @@
+<template>
+    <div class="slds-grid slds-gutters slds-grid_vertical-align-end">
+        <div class="slds-col">
+            <c-ap-category-d-d-list oncategory={handleCategory}></c-ap-category-d-d-list>
+        </div>
+        <div class="slds-col">
+            <c-ap-input-for-search onstext={handleSearchText}></c-ap-input-for-search>
+        </div>
+        <div class="slds-col">
+            <lightning-button label="Search" title="Search action" onclick={searchEquipment} icon-name="utility:search" icon-position="right" class="slds-m-left_x-small"></lightning-button>
+        </div>        
+    </div>    
+</template>

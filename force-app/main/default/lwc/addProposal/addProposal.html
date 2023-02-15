@@ -1,0 +1,37 @@
+<template>
+    <template if:true={showModal}>
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- Header Start -->
+            <header class="slds-modal__header">
+              <h2 class="slds-text-heading_medium slds-hyphenate header-string">
+                New Proposal
+              </h2>
+            </header>
+            <!-- Header End -->
+            <div
+              class="slds-modal__content slds-p-around_medium" 
+              id="modal-content-id-1">
+              <slot name="serach">
+                <c-ap-search onsetdata={handleSearchResult}></c-ap-search>                
+              </slot>
+              <hr>
+              <slot name="quipment">
+                <c-ap-equipment-list onenabebutton={enableAddButton}></c-ap-equipment-list>
+              </slot>
+            </div>
+            <div class="slds-modal__footer">
+              <button class="slds-button slds-button_brand" onclick={saveClick} disabled={disableButton}>Save</button>
+              <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick={handleDialogClose}>Cancel</button>
+            </div>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,16 @@
+<template>
+    <div style="min-height: 500px;">
+        <lightning-datatable
+                key-field="id"
+                data={searchData}
+                columns={columns}
+                onrowselection={rowselect}
+                oncellchange={cellChange}
+                draft-values={draftValues}
+                selected-rows={selectedRows}
+                errors={errors}
+                show-row-number-column="true"
+                suppress-bottom-bar>
+        </lightning-datatable>
+    </div>    
+</template>

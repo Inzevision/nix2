@@ -1,0 +1,81 @@
+<apex:page controller="DisplayPDFController"  renderAs="pdf" 
+		   applyHtmlTag="false" showHeader="false" cache="true" readOnly="true" >
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+            <style>
+                @page {
+                    size: a4 portrait;    
+                    padding-left: 2px;    
+                    padding-right: 2px;
+                }
+                @page :left {
+                    margin-left: 2cm;
+                }
+                @page :right {
+                    margin-left: 1cm;
+                }        
+            </style>
+        </head>
+        <table style="width: 100%;"><tr>
+            <td width="50%"><img src="/resource/imgProposalTemplateBundle/imgProposalTemplate/logo.png"/></td>
+            <td width="50%" style="text-align: right;"><apex:outputText value="{!DAY(TODAY())}-{!MONTH(TODAY())}-{!YEAR(TODAY())}"/></td>
+        </tr></table>
+        <br/><br/><h1 style="text-align: center;">{!wrp.accountData[0].Account.Name}</h1>
+        <p style="text-align: center;"><img src="/resource/imgProposalTemplateBundle/imgProposalTemplate/promo.png"/></p>
+        <h1 style="text-align: center; color: gray;">PREPARED FOR:</h1>
+        <h1 style="text-align: center;">{!wrp.contactData[0].Contact.Name}</h1>
+        <div style="text-align: center;"><p>{!wrp.contactData[0].Contact.MailingStreet}<br/>
+            {!wrp.contactData[0].Contact.MailingCity}<br/>
+            {!wrp.contactData[0].Contact.MailingState}  {!wrp.contactData[0].Contact.MailingPostalCode}<br/>
+            {!wrp.contactData[0].Contact.MailingCountry}</p>
+        </div> 
+        <div style="page-break-after: always"/>
+
+        <p><strong>Terms and conditions</strong></p>
+        <p>These terms and conditions ("Agreement") set forth the general terms and conditions of your use of the {!wrp.accountData[0].Account.Name} and any of its related products and services (collectively, "Services"). This Agreement is legally binding between you ("User", "you" or "your") and this operator ("Operator", "we", "us" or "our"). By accessing and using the Website and Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. If you are entering into this Agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this Agreement, in which case the terms "User", "you" or "your" shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this Agreement, you must not accept this Agreement and may not access and use the Website and Services. You acknowledge that this Agreement is a contract between you and the Operator, even though it is electronic and is not physically signed by you, and it governs your use of the Website and Services.</p>
+        <p><strong>Links to other resources</strong></p>
+        <p>Although the Website and Services may link to other resources (such as websites, mobile applications, etc.), we are not, directly or indirectly, implying any approval, association, sponsorship, endorsement, or affiliation with any linked resource, unless specifically stated herein. We are not responsible for examining or evaluating, and we do not warrant the offerings of, any businesses or individuals or the content of their resources. We do not assume any responsibility or liability for the actions, products, services, and content of any other third parties. You should carefully review the legal statements and other conditions of use of any resource which you access through a link on the Website and Services. Your linking to any other off-site resources is at your own risk.</p>
+        <p><strong>Changes and amendments</strong></p>
+        <p>We reserve the right to modify this Agreement or its terms relating to the Website and Services at any time, effective upon posting of an updated version of this Agreement on the Website. When we do, we will send you an email to notify you. Continued use of the Website and Services after any such changes shall constitute your consent to such changes.</p>
+        <p><strong>Acceptance of these terms</strong></p>
+        <p>You acknowledge that you have read this Agreement and agree to all its terms and conditions. By accessing and using the Website and Services you agree to be bound by this Agreement. If you do not agree to abide by the terms of this Agreement, you are not authorized to access or use the Website and Services.</p>
+        <p><strong>Contacting us</strong></p>
+        <p>If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to {!wrp.contactData[0].Contact.Email}.</p>
+        <p>This document was last updated on <apex:outputText value=" {!DAY(TODAY())}-{!MONTH(TODAY())}-{!YEAR(TODAY())}"/></p>           
+        <div style="page-break-after: always"/>
+
+        <h2>{!wrp.items[0].Proposal__r.Name}</h2>
+        <apex:variable value="{!0.00}" var="total1"/>
+        <apex:dataTable width="100%" value="{!wrp.items}" var="item" cellPadding="4" border="1">
+            <apex:column >
+                <apex:facet name="header">Product name</apex:facet>
+                <apex:outputText value="{!item.Name}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Quantity</apex:facet>
+                <apex:outputText value="{0, number, integer}">
+                    <apex:param value="{!item.Quantity__c}"/>
+                </apex:outputText>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Price per 1</apex:facet>
+                <apex:outputText value="{0, Number, Currency}">
+                    <apex:param value="{!item.Total_Price__c}"/>
+                </apex:outputText>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Quantity * Price</apex:facet>
+                <apex:outputText value="{0, Number, Currency}">
+                    <apex:param value="{!(item.Total_Price__c * item.Quantity__c)}"/>
+                </apex:outputText>
+                <apex:variable var="total1" value="{!(total1 + item.Total_Price__c * item.Quantity__c)}"/>
+            </apex:column>
+        </apex:dataTable>
+        <p style="text-align: right;">Total:
+            <apex:outputText value=" {0, Number, Currency}">
+                <apex:param value="{!total1}"/>
+            </apex:outputText>
+        </p>
+    </html>
+</apex:page>

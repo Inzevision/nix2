@@ -1,0 +1,22 @@
+<template>
+    <lightning-card>
+        <div class="slds-var-m-around_medium">
+            <template  if:true={showAddButton}>
+                <lightning-button
+                    label="Add"
+                    onclick={handleShowModal}>
+                </lightning-button>
+            </template>
+            <c-add-proposal opp-record-id={recordId} onrefreslist={refreshProposalList}></c-add-proposal>
+            <c-ap-show-pdf-preview onneedupdate={refreshProposalList}></c-ap-show-pdf-preview>
+            <lightning-datatable
+                key-field="id"
+                data={proposals}
+                columns={columns}
+                hide-checkbox-column
+                show-row-number-column
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>    
+</template>
